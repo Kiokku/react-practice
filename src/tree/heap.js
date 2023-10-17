@@ -1,4 +1,4 @@
-class Heap {
+class MaxHeap {
   /* 构造方法，建立空堆或根据输入列表建堆 */
   constructor(nums) {
     // 将列表元素原封不动添加进堆
@@ -82,4 +82,88 @@ class Heap {
     }
   }
 
+}
+
+class Heap {
+  #heap;
+  #cmp;
+  constructor(nums, cmp) {
+      // 将列表元素原封不动添加进堆
+      this.#heap = nums === undefined ? [] : [...nums];
+      this.#cmp = typeof cmp === 'function' ? cmp : (a, b) => a - b;
+      // 对所有非叶节点“自下向上”堆化，建堆
+      for (let i = this.#parent(this.size() - 1); i >= 0; i--) {
+          this.#siftDown(i);
+      };
+  };
+
+  #left(i) {
+      return 2 * i + 1;
+  };
+
+  #right(i) {
+      return 2 * i + 2;
+  };
+
+  #parent(i) {
+      return Math.floor((i - 1) / 2);
+  };
+
+  #swap(i, j) {
+      const temp = this.#heap[i];
+      this.#heap[i] = this.#heap[j];
+      this.#heap[j] = temp;
+  };
+
+  size() {
+      return this.#heap.length;
+  };
+
+  isEmpty() {
+      return this.#heap.length === 0;
+  }
+
+  peek() {
+      return this.#heap[0];
+  };
+
+  push(num) {
+      this.#heap.push(num);
+      this.#siftUp(this.size() - 1);
+  };
+
+  pop() {
+      if (this.isEmpty()) throw new Error("堆为空");
+      this.#swap(0, this.size() - 1);
+      const val = this.#heap.pop();
+      this.#siftDown(0);
+      return val;
+  };
+
+  #siftUp(i) {
+      let child = i;
+      while (true) {
+          const p = this.#parent(child);
+          if (p < 0 || this.#cmp(this.#heap[child], this.#heap[p]) <= 0) break;
+
+          this.#swap(child, p);
+          child = p;
+      };
+  };
+
+  #siftDown(i) {
+      let root = i;
+
+      while (true) {
+          const left = this.#left(root);
+          const right = this.#right(root);
+
+          let max = root;
+          if (left < this.size() && this.#cmp(this.#heap[max], this.#heap[left]) < 0) max = left;
+          if (right < this.size() && this.#cmp(this.#heap[max], this.#heap[right]) < 0) max = right;
+          if (max === root) break;
+          this.#swap(root, max);
+          root = max;
+      };
+  }
 }

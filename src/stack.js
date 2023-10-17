@@ -1,15 +1,15 @@
 /* 基于链表实现的栈 */
 class LinkedListStack {
-    _stackPeek; // 将头节点作为栈顶
-    _stkSize = 0; // 栈的长度
+    #stackPeek; // 将头节点作为栈顶
+    #stkSize = 0; // 栈的长度
 
     constructor() {
-        this._stackPeek = null;
+        this.#stackPeek = null;
     }
 
     /* 获取栈的长度 */
     get size() {
-        return this._stkSize;
+        return this.#stkSize;
     }
 
     /* 判断栈是否为空 */
@@ -20,28 +20,28 @@ class LinkedListStack {
     /* 入栈 */
     push(num) {
         const node = new ListNode(num);
-        node.next = this._stackPeek;
-        this._stackPeek = node;
-        this._stkSize++;
+        node.next = this.#stackPeek;
+        this.#stackPeek = node;
+        this.#stkSize++;
     }
 
     /* 出栈 */
     pop() {
         const num = this.peek();
-        this._stackPeek = this._stackPeek.next;
-        this._stkSize--;
+        this.#stackPeek = this.#stackPeek.next;
+        this.#stkSize--;
         return num;
     }
 
     /* 访问栈顶元素 */
     peek() {
-        if (!this._stackPeek) throw new Error('栈为空');
-        return this._stackPeek.val;
+        if (!this.#stackPeek) throw new Error('栈为空');
+        return this.#stackPeek.val;
     }
 
     /* 将链表转化为 Array 并返回 */
     toArray() {
-        let node = this._stackPeek;
+        let node = this.#stackPeek;
         const res = new Array(this.size);
         for (let i = res.length - 1; i >= 0; i--) {
             res[i] = node.val;
@@ -53,40 +53,40 @@ class LinkedListStack {
 
 /* 基于数组实现的栈 */
 class ArrayStack {
-    _stack;
+    #stack;
     constructor() {
-        this._stack = [];
+        this.#stack = [];
     }
 
     /* 获取栈的长度 */
     get size() {
-        return this._stack.length;
+        return this.#stack.length;
     }
 
     /* 判断栈是否为空 */
     empty() {
-        return this._stack.length === 0;
+        return this.#stack.length === 0;
     }
 
     /* 入栈 */
     push(num) {
-        this._stack.push(num);
+        this.#stack.push(num);
     }
 
     /* 出栈 */
     pop() {
         if (this.empty()) throw new Error('栈为空');
-        return this._stack.pop();
+        return this.#stack.pop();
     }
 
     /* 访问栈顶元素 */
     top() {
         if (this.empty()) throw new Error('栈为空');
-        return this._stack[this._stack.length - 1];
+        return this.#stack[this.#stack.length - 1];
     }
 
     /* 返回 Array */
     toArray() {
-        return this._stack;
+        return this.#stack;
     }
 }
