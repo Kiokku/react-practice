@@ -146,9 +146,10 @@ Promise.prototype.then = function (onResolved, onRejected) {
           // 如果onResolved的返回值是一个Promise对象，直接取它的结果做为promise2的结果
           if (x instanceof Promise) {
             x.then(resolve, reject);
+          } else {
+            // 否则，以它的返回值做为promise2的结果
+            resolve(x);
           }
-          // 否则，以它的返回值做为promise2的结果
-          resolve(x);
         } catch (error) {
           reject(error);
         }
@@ -163,7 +164,9 @@ Promise.prototype.then = function (onResolved, onRejected) {
           var x = onRejected(self.data);
           if (x instanceof Promise) {
             x.then(resolve, reject);
-          }
+          } else {
+            reject(x);
+          };
         } catch (error) {
           reject(error);
         }
@@ -182,6 +185,8 @@ Promise.prototype.then = function (onResolved, onRejected) {
           var x = onResolved(self.data);
           if (x instanceof Promise) {
             x.then(resolve, reject);
+          } else {
+            resolve(x);
           }
         } catch (e) {
           reject(e);
@@ -193,6 +198,8 @@ Promise.prototype.then = function (onResolved, onRejected) {
           var x = onRejected(self.data);
           if (x instanceof Promise) {
             x.then(resolve, reject);
+          } else {
+            reject(x);
           }
         } catch (e) {
           reject(e);
